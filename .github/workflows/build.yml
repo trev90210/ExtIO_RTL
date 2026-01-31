@@ -105,6 +105,15 @@ jobs:
 
       - name: Build tomlplusplus
         run: meson compile -C build 
+                
+      - name: List tomlplusplus
+        run: |
+          echo "********************************************"
+          ls 
+          echo "********************************************"
+          ls -Path "${{ runner.workspace }}"
+          echo "********************************************"
+          ls -Recurse -Exclude ".git,debian" -Path  "${{ runner.workspace }}/tomlplusplus"
         
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
@@ -225,6 +234,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
