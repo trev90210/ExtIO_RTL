@@ -102,7 +102,7 @@ jobs:
         run: |
             cd ${{runner.workspace}}/tomlplusplus
             mkdir build
-            meson setup build --vsenv --buildtype=release -Ddevel=true -Db_lto=false -Dpermissive=false
+            meson setup build --vsenv --buildtype=release -Ddevel=true -Db_lto=false -Dpermissive=true
 
       - name: Build tomlplusplus
         run: meson compile -C build 
@@ -235,6 +235,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
