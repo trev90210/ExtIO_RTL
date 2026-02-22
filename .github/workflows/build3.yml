@@ -171,6 +171,7 @@ jobs:
           ls -Recurse -Exclude ".git,libusb,pthread-win32,debian"
 
       - name: cmake install librtlsdr
+        working-directory: ${{runner.workspace}}/librtlsdr
         run: |
           cmake --install build_rtl-sdr --prefix dist --verbose
           ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
@@ -239,6 +240,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
