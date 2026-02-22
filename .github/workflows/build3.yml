@@ -143,7 +143,7 @@ jobs:
       - name: RTL-SDR configure build
         working-directory: ${{runner.workspace}}/librtlsdr
         run: |
-          mkdir ${{runner.workspace}}/librtlsdr/build
+          mkdir ${{runner.workspace}}/librtlsdr/build_rtl-sdr
           cd ${{runner.workspace}}/librtlsdr/
           ls
           cmake -B build_rtl-sdr -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
@@ -159,6 +159,7 @@ jobs:
 
         
       - name: cmake librtlsdr
+        working-directory: ${{runner.workspace}}/librtlsdr
         run: |
           ## cd build
           cmake --build build_rtl-sdr --config Release --verbose
@@ -238,6 +239,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
