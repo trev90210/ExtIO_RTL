@@ -26,7 +26,7 @@ set(LINK_RTLTOOLS_AGAINST_STATIC_LIB TRUE)
 if (WIN32)
     set( EXTIO_THREAD_LIB libpthreadVC3 )
     set(PTHREADS4W_VERSION 3)
-    add_subdirectory(pthread-win32)
+#    add_subdirectory(pthread-win32)
     if (TARGET libpthreadVC3)
         set( THREADS_FOUND  TRUE)
         set( Threads_FOUND  TRUE)
@@ -132,4 +132,5 @@ endforeach()
 add_custom_target(rtl_tools
   DEPENDS ${RTLTOOLS}
 )
+
 
