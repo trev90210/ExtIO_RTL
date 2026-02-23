@@ -16,7 +16,7 @@ jobs:
         configuration:
           - 'Release'
         architecture:
-          - 'Win32'
+          #- 'Win32'
           - 'x64'
           #- 'ARM64'
 
@@ -242,6 +242,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
