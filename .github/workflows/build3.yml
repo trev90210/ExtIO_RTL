@@ -203,6 +203,7 @@ jobs:
           ## cd ..
 
       - name: cmake ExtIO_RTL
+        working-directory: ${{github.workspace}}
         run: |
           ## cd build
           cmake --build build_ExtIO_RTL --config Release --verbose
@@ -241,6 +242,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
