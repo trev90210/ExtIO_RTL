@@ -36,7 +36,7 @@ jobs:
             choco install wget innoextract --no-progress
 
       - name: Checkout code
-        uses: actions/checkout@v5
+        uses: actions/checkout@v4
         with:
           fetch-depth: 2
           submodules:  ignore
@@ -50,33 +50,33 @@ jobs:
           cmd.exe /c dir
 
       - name: Clone dependencies
-        working-directory: ${{github.workspace}}
+        working-directory: ${{runner.workspace}}
         run: |
-          cd ${{github.workspace}}
+          cd ${{runner.workspace}}
           git clone https://github.com/marzer/tomlplusplus tomlplusplus
           git clone https://github.com/libusb/libusb libusb
-          git clone https://github.com/trev90211/librtlsdr librtlsdr
+          git clone https://github.com/trev90211/librtlsdr
           git clone https://github.com/GerHobbelt/pthread-win32 pthread-win32
 
       - name: ls dependencies
-        working-directory: ${{github.workspace}}
+        working-directory: ${{runner.workspace}}
         run: |
           ls
           echo "********************************************"
-          ls -Path "${{ github.workspace }}"
+          ls -Path "${{ runner.workspace }}"
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/pthread-win32" 
+          ls -Recurse -Exclude ".git,debian" -Path "${{ runner.workspace }}/pthread-win32" 
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/libusb"
+          ls -Recurse -Exclude ".git,debian" -Path "${{ runner.workspace }}/libusb"
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/librtlsdr"
+          ls -Recurse -Exclude ".git,debian" -Path "${{ runner.workspace }}/librtlsdr"
           echo "********************************************"
           ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}"
           echo "********************************************"
 
           
       - name: Build pthread-win32
-        working-directory: ${{ github.workspace }}
+        working-directory: ${{ runner.workspace }}
         run: |
           cd pthread-win32
           cmake -B shared `
@@ -91,23 +91,23 @@ jobs:
           echo "********************************************"
           ls 
           echo "********************************************"
-          ls -Path "${{ github.workspace }}"
+          ls -Path "${{ runner.workspace }}"
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path  "${{ github.workspace }}/pthread-win32"
+          ls -Recurse -Exclude ".git,debian" -Path  "${{ runner.workspace }}/pthread-win32"
 
       - uses: ilammy/msvc-dev-cmd@v1
 
       - name: Configure Meson
-        working-directory: ${{github.workspace}}/tomlplusplus
+        working-directory: ${{runner.workspace}}/tomlplusplus
         run: |
-            cd ${{github.workspace}}/tomlplusplus
+            cd ${{runner.workspace}}/tomlplusplus
             mkdir build
             meson setup build --vsenv --buildtype=release -Ddevel=true -Db_lto=false -Dpermissive=true
 
       - name: Build tomlplusplus
-        working-directory: ${{github.workspace}}/tomlplusplus
+        working-directory: ${{runner.workspace}}/tomlplusplus
         run: |
-            cd ${{github.workspace}}/tomlplusplus
+            cd ${{runner.workspace}}/tomlplusplus
             meson compile -C build 
                 
       - name: List tomlplusplus
@@ -115,15 +115,15 @@ jobs:
           echo "********************************************"
           ls 
           echo "********************************************"
-          ls -Path "${{ github.workspace }}/tomlplusplus"
+          ls -Path "${{ runner.workspace }}/tomlplusplus"
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path  "${{ github.workspace }}/tomlplusplus"
+          ls -Recurse -Exclude ".git,debian" -Path  "${{ runner.workspace }}/tomlplusplus"
         
       - name: Setup MSBuild
         uses: microsoft/setup-msbuild@v2
 
       - name: libusb Configure Visual Studio and CMake 
-        working-directory: ${{github.workspace}}/libusb
+        working-directory: ${{runner.workspace}}/libusb
         run: |
           msbuild msvc/libusb.sln `
                 /m `
@@ -136,31 +136,31 @@ jobs:
       - name: List libusb
         run: |
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian"  -Path "${{ github.workspace }}/libusb"
+          ls -Recurse -Exclude ".git,debian"  -Path "${{ runner.workspace }}/libusb"
           echo "********************************************"
           cd ..
 
       - name: RTL-SDR configure build
-        working-directory: ${{github.workspace}}/librtlsdr
+        working-directory: ${{runner.workspace}}/librtlsdr
         run: |
-          mkdir ${{github.workspace}}/librtlsdr/build_rtl-sdr
-          cd ${{github.workspace}}/librtlsdr/
+          mkdir ${{runner.workspace}}/librtlsdr/build_rtl-sdr
+          cd ${{runner.workspace}}/librtlsdr/
           ls
           cmake -B build_rtl-sdr -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
-              -DLIBUSB_LIBRARIES=${{github.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
-              -DLIBUSB_PKG_LIBRARY_DIRS=${{github.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
-              -DLIBUSB_INCLUDE_DIRS=${{github.workspace}}/libusb/libusb `
-              -DLIBUSB_INCLUDE_DIR=${{github.workspace}}/libusb/libusb `
-              -DTHREADS_PTHREADS_INCLUDE_DIR=${{github.workspace}}/pthread-win32 `
-              -DTHREADS_PTHREADS_LIBRARY=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
-              -DTHREADS_PTHREADS_WIN32_LIBRARY=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
-              -DCMAKE_THREAD_LIBS_INIT=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
-              -DlibpthreadVC3=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib
+              -DLIBUSB_LIBRARIES=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
+              -DLIBUSB_PKG_LIBRARY_DIRS=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
+              -DLIBUSB_INCLUDE_DIRS=${{runner.workspace}}/libusb/libusb `
+              -DLIBUSB_INCLUDE_DIR=${{runner.workspace}}/libusb/libusb `
+              -DTHREADS_PTHREADS_INCLUDE_DIR=${{runner.workspace}}/pthread-win32 `
+              -DTHREADS_PTHREADS_LIBRARY=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
+              -DTHREADS_PTHREADS_WIN32_LIBRARY=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
+              -DCMAKE_THREAD_LIBS_INIT=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
+              -DlibpthreadVC3=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib
               ## --log-level=DEBUG --trace-expand --debug-find 
 
         
       - name: cmake librtlsdr
-        working-directory: ${{github.workspace}}/librtlsdr
+        working-directory: ${{runner.workspace}}/librtlsdr
         run: |
           ## cd build
           cmake --build build_rtl-sdr --config Release --verbose
@@ -172,7 +172,7 @@ jobs:
           ls -Recurse -Exclude ".git,libusb,pthread-win32,debian"
 
       - name: cmake install librtlsdr
-        working-directory: ${{github.workspace}}/librtlsdr
+        working-directory: ${{runner.workspace}}/librtlsdr
         run: |
           cmake --install build_rtl-sdr --prefix dist --verbose
           ###echo "* ${{github.workspace}} : `git show --format='%h (%s, %as)' --no-patch`" >> ${{github.workspace}}/release_notes.md
@@ -187,15 +187,15 @@ jobs:
           ## cd ${{github.workspace}}/build
           ls
           cmake -B build_ExtIO_RTL -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
-              -DLIBUSB_LIBRARIES=${{github.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
-              -DLIBUSB_PKG_LIBRARY_DIRS=${{github.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
-              -DLIBUSB_INCLUDE_DIRS=${{github.workspace}}/libusb/libusb `
-              -DLIBUSB_INCLUDE_DIR=${{github.workspace}}/libusb/libusb `
-              -DTHREADS_PTHREADS_INCLUDE_DIR=${{github.workspace}}/pthread-win32 `
-              -DTHREADS_PTHREADS_LIBRARY=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
-              -DTHREADS_PTHREADS_WIN32_LIBRARY=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
-              -DCMAKE_THREAD_LIBS_INIT=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
-              -DlibpthreadVC3=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib --trace-expand
+              -DLIBUSB_LIBRARIES=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
+              -DLIBUSB_PKG_LIBRARY_DIRS=${{runner.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
+              -DLIBUSB_INCLUDE_DIRS=${{runner.workspace}}/libusb/libusb `
+              -DLIBUSB_INCLUDE_DIR=${{runner.workspace}}/libusb/libusb `
+              -DTHREADS_PTHREADS_INCLUDE_DIR=${{runner.workspace}}/pthread-win32 `
+              -DTHREADS_PTHREADS_LIBRARY=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
+              -DTHREADS_PTHREADS_WIN32_LIBRARY=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
+              -DCMAKE_THREAD_LIBS_INIT=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
+              -DlibpthreadVC3=${{runner.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib --trace-expand
               ## --log-level=DEBUG --trace-expand --debug-find 
 
       - name: List ExtIO_RTL 1
@@ -224,8 +224,8 @@ jobs:
       - name: Collect files to distribute
         working-directory: ${{github.workspace}}
         run: |
-          cp   ${{ github.workspace }}/pthread-win32/shared/bin/*  dist/bin
-          cp   ${{ github.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
+          cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
+          cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
           # cp "${{github.workspace}}/ExtIO_RTL/README.md" ./
           # cp "${{github.workspace}}/ExtIO_RTL/COPYING" ./LICENSE
 
@@ -241,8 +241,8 @@ jobs:
             COPYING
             AUTHORS
             README
-            # ${{ github.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
-            # ${{ github.workspace }}/pthread-win32/shared/bin
+            # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
+            # ${{ runner.workspace }}/pthread-win32/shared/bin
 
 
 
