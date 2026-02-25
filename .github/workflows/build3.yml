@@ -125,7 +125,7 @@ jobs:
       - name: libusb Configure Visual Studio and CMake 
         working-directory: ${{github.workspace}}/libusb
         run: |
-          msbuild msvc/libusb.sln `
+          msbuild msvc/libusb_static.sln `
                 /m `
                 -property:Configuration=Release `
                 -property:Platform=x64
