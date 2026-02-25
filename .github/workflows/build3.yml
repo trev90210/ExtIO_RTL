@@ -147,8 +147,8 @@ jobs:
           cd ${{github.workspace}}/librtlsdr/
           ls
           cmake -B build_rtl-sdr -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
-              -DLIBUSB_LIBRARIES=${{github.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
-              -DLIBUSB_PKG_LIBRARY_DIRS=${{github.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
+              -DLIBUSB_LIBRARIES=${{github.workspace}}/libusb/build/v143/x64/Release/lib/libusb-1.0.lib `
+              -DLIBUSB_PKG_LIBRARY_DIRS=${{github.workspace}}/libusb/build/v143/x64/Release/lib/libusb-1.0.lib  `
               -DLIBUSB_INCLUDE_DIRS=${{github.workspace}}/libusb/libusb `
               -DLIBUSB_INCLUDE_DIR=${{github.workspace}}/libusb/libusb `
               -DTHREADS_PTHREADS_INCLUDE_DIR=${{github.workspace}}/pthread-win32 `
@@ -187,8 +187,8 @@ jobs:
           ## cd ${{github.workspace}}/build
           ls
           cmake -B build_ExtIO_RTL -S . -A x64 -DCMAKE_BUILD_TYPE=Release --fresh `
-              -DLIBUSB_LIBRARIES=${{github.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib `
-              -DLIBUSB_PKG_LIBRARY_DIRS=${{github.workspace}}/libusb/build/v143/x64/Release/dll/libusb-1.0.lib  `
+              -DLIBUSB_LIBRARIES=${{github.workspace}}/libusb/build/v143/x64/Release/lib/libusb-1.0.lib `
+              -DLIBUSB_PKG_LIBRARY_DIRS=${{github.workspace}}/libusb/build/v143/x64/Release/lib/libusb-1.0.lib  `
               -DLIBUSB_INCLUDE_DIRS=${{github.workspace}}/libusb/libusb `
               -DLIBUSB_INCLUDE_DIR=${{github.workspace}}/libusb/libusb `
               -DTHREADS_PTHREADS_INCLUDE_DIR=${{github.workspace}}/pthread-win32 `
