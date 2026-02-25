@@ -36,7 +36,7 @@ if (WIN32)
     else()
         message(FATAL_ERROR "ExtIO_RTL: target pthreadVC3 not defined!")
     endif()
-
+    message(STATUS usb1)
     set( EXTIO_USB_LIB libusb-1.0 )
     add_subdirectory(libusb)
     if (TARGET libusb-1.0)
