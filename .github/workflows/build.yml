@@ -66,7 +66,7 @@ jobs:
 
 
       - name: ls dependencies
-        working-directory: ${{runner.workspace}}
+        working-directory: ${{github.workspace}}
         run: |
           ls
           echo "********************************************"
@@ -116,7 +116,7 @@ jobs:
             #echo "vcvars after ********************************************"
             #cat "$env:temp\vcvars.txt"
             #echo "********************************************"
-            cmake -G "Visual Studio 17 2022" -A ${{ matrix.architecture }} -S .. -B build_ExtIO_RTL
+            cmake -G "Visual Studio 17 2022" -A ${{ matrix.architecture }} -S . -B build_ExtIO_RTL
 
       - name: Build
         working-directory: ${{runner.workspace}}
@@ -146,6 +146,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
