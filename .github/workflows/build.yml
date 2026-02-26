@@ -26,6 +26,7 @@ jobs:
       ARCH_NUM: "${{ matrix.architecture == 'x64' && '64' || (matrix.architecture == 'Win32' && '32' || 'amd64_arm64' )}}"
       CMAKE_ARCH: "${{ matrix.architecture == 'x64' && 'x64' || (matrix.architecture == 'Win32' && 'Win32' || 'ARM64' )}}"
       LONG_ARCH: "${{ matrix.architecture == 'x64' && 'x86_64' || (matrix.architecture == 'Win32' && 'x86' || 'ARM64' )}}"
+      VCVARS: "${{ matrix.architecture == 'x64' && '64' || (matrix.architecture == 'Win32' && 'amd64_x86' || 'amd64_arm' )}}"
 
     runs-on: ${{ matrix.os }}
 
@@ -86,13 +87,13 @@ jobs:
         uses: microsoft/setup-msbuild@v2
 
       - name: Configure Visual Studio and CMake
-        working-directory: ${{runner.workspace}}
+        working-directory: ${{ github.workspace }}
         run: |
             # setup the compiler
             ls -Path "$($env:programfiles)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build"
             & "$env:programfiles\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" 
             echo "${{ env.ARCH_NUM }}"
-            cat "$($env:programfiles)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars${{ env.ARCH_NUM }}.bat"
+            cat "$($env:programfiles)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars${{ env.VCVARS }}.bat"
             Get-Item env: > "$env:temp\vcvars.txt"
             echo "env before ********************************************"
             #gci env:*
@@ -115,7 +116,7 @@ jobs:
             #echo "vcvars after ********************************************"
             #cat "$env:temp\vcvars.txt"
             #echo "********************************************"
-            cmake -G "Visual Studio 17 2022" -A ${{ matrix.architecture }} -S ExtIO_RTL -B build_ExtIO_RTL
+            cmake -G "Visual Studio 17 2022" -A ${{ matrix.architecture }} -S .. -B build_ExtIO_RTL
 
       - name: Build
         working-directory: ${{runner.workspace}}
@@ -123,7 +124,7 @@ jobs:
             cmake --build build_ExtIO_RTL --config Release --target ExtIO_RTL
 
 
-      - name: Collect files to distribute
+      - name: Collect files ndistribute
         working-directory: ${{github.workspace}}
         run: |
           cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
@@ -145,6 +146,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
