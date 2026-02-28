@@ -58,7 +58,7 @@ jobs:
           git clone https://github.com/marzer/tomlplusplus tomlplusplus
           git clone https://github.com/GerHobbelt/pthread-win32 pthread-win32
           git clone https://github.com/trev90211/librtlsdr
-          git clone https://github.com/libusb/libusb libusb
+          git clone https://github.com/trev90210/libusb libusb
           #git clone https://github.com/marzer/tomlplusplus.git
           #git clone https://github.com/hayguen/pthread-win32.git
           #git clone https://github.com/hayguen/librtlsdr.git
