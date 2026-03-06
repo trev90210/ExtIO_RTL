@@ -70,13 +70,13 @@ jobs:
         run: |
           ls
           echo "********************************************"
-          ls -Path "${{ runner.workspace }}"
+          ls -Path "${{ github.workspace }}"
           echo "********************************************"
           ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/pthread-win32" 
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path "${{ runner.workspace }}/libusb"
+          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/libusb"
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path "${{ runner.workspace }}/librtlsdr"
+          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/librtlsdr"
           echo "********************************************"
           ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}"
           echo "********************************************"
@@ -120,7 +120,7 @@ jobs:
             cmake -G "Visual Studio 17 2022" -A ${{ matrix.architecture }} -S . -B build_ExtIO_RTL
 
       - name: Build
-        working-directory: ${{runner.workspace}}
+        working-directory: ${{github.workspace}}
         run: |
             cmake --build build_ExtIO_RTL --config Release --target ExtIO_RTL
 
@@ -128,8 +128,8 @@ jobs:
       - name: Collect files ndistribute
         working-directory: ${{github.workspace}}
         run: |
-          cp   ${{ runner.workspace }}/pthread-win32/shared/bin/*  dist/bin
-          cp   ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
+          cp   ${{ github.workspace }}/pthread-win32/shared/bin/*  dist/bin
+          cp   ${{ github.workspace }}/libusb/build/v143/x64/Release/dll/*.dll dist/bin
           # cp "${{github.workspace}}/ExtIO_RTL/README.md" ./
           # cp "${{github.workspace}}/ExtIO_RTL/COPYING" ./LICENSE
 
@@ -145,8 +145,9 @@ jobs:
             COPYING
             AUTHORS
             README
-            # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
-            # ${{ runner.workspace }}/pthread-win32/shared/bin
+            # ${{ github.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
+            # ${{ github.workspace }}/pthread-win32/shared/bin
+
 
 
 
