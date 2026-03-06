@@ -117,12 +117,12 @@ jobs:
             #echo "vcvars after ********************************************"
             #cat "$env:temp\vcvars.txt"
             #echo "********************************************"
-            cmake -G "Visual Studio 17 2022" -A ${{ matrix.architecture }} -S . -B build_ExtIO_RTL
+            cmake -G "Visual Studio 17 2022" -A ${{ matrix.architecture }} -S . -B build_ExtIO_RTL -DLIBUSB_INCLUDE_DIRS=${{github.workspace}}/libusb/libusb
 
       - name: Build
         working-directory: ${{github.workspace}}
         run: |
-            cmake --build build_ExtIO_RTL --config Release --target ExtIO_RTL
+            cmake --build build_ExtIO_RTL --config Release --target ExtIO_RTL              -DLIBUSB_INCLUDE_DIRS=${{github.workspace}}/libusb/libusb
 
 
       - name: Collect files ndistribute
@@ -147,6 +147,7 @@ jobs:
             README
             # ${{ github.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ github.workspace }}/pthread-win32/shared/bin
+
 
 
 
