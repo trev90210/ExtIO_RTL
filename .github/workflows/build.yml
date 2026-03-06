@@ -52,7 +52,7 @@ jobs:
           ls
 
       - name: Clone dependencies
-        working-directory: ${{runner.workspace}}
+        working-directory: ${{github.workspace}}
         run: |
           cd ${{github.workspace}}
           git clone https://github.com/marzer/tomlplusplus tomlplusplus
@@ -89,6 +89,7 @@ jobs:
       - name: Configure Visual Studio and CMake
         working-directory: ${{ github.workspace }}
         run: |
+            mkdir ${{ github.workspace }}\build_ExtIO_RTL
             # setup the compiler
             ls -Path "$($env:programfiles)\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build"
             & "$env:programfiles\Microsoft Visual Studio\2022\Enterprise\VC\Auxiliary\Build\vcvars64.bat" 
@@ -146,6 +147,7 @@ jobs:
             README
             # ${{ runner.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ runner.workspace }}/pthread-win32/shared/bin
+
 
 
 
