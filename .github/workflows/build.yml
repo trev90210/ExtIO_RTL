@@ -125,6 +125,14 @@ jobs:
             cmake --build build_ExtIO_RTL --config Release --target ExtIO_RTL              -DLIBUSB_INCLUDE_DIRS=${{github.workspace}}/libusb/libusb
 
 
+      - name: ls 
+        working-directory: ${{github.workspace}}
+        run: |
+          echo "********************************************"
+          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/pthread-win32"
+          echo "********************************************"
+          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/libusb"
+
       - name: Collect files ndistribute
         working-directory: ${{github.workspace}}
         run: |
@@ -147,6 +155,7 @@ jobs:
             README
             # ${{ github.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ github.workspace }}/pthread-win32/shared/bin
+
 
 
 
