@@ -129,9 +129,7 @@ jobs:
         working-directory: ${{github.workspace}}
         run: |
           echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/pthread-win32"
-          echo "********************************************"
-          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}/libusb"
+          ls -Recurse -Exclude ".git,debian" -Path "${{ github.workspace }}"
 
       - name: Collect files ndistribute
         working-directory: ${{github.workspace}}
@@ -155,6 +153,7 @@ jobs:
             README
             # ${{ github.workspace }}/libusb/build/v143/x64/Release/dll/*.dll
             # ${{ github.workspace }}/pthread-win32/shared/bin
+
 
 
 
