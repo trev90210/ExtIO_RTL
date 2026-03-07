@@ -195,7 +195,8 @@ jobs:
               -DTHREADS_PTHREADS_LIBRARY=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
               -DTHREADS_PTHREADS_WIN32_LIBRARY=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
               -DCMAKE_THREAD_LIBS_INIT=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
-              -DlibpthreadVC3=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib 
+              -DlibpthreadVC3=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib `
+              -DpthreadVC3=${{github.workspace}}/pthread-win32/shared/lib/pthreadVC3.lib  
               ##--trace-expand
               ## --log-level=DEBUG --trace-expand --debug-find 
 
